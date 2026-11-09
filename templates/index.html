@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a35">
+  <meta name="description" content="Live weather, local conditions, and a five-day forecast for cities around the world.">
+  <title>SkyCast — Weather, at a glance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="SkyCast home">
+        <span class="brand-mark" aria-hidden="true">☁</span>
+        <span>sky<span>cast</span></span>
+      </a>
+      <span class="live-label"><span class="live-dot"></span> LIVE WEATHER</span>
+    </header>
+
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">YOUR DAY, IN THE KNOW</p>
+      <h1 id="page-title">A little more <span>sky</span> in your day.</h1>
+      <p class="intro-copy">Clear skies or unexpected showers — find out what’s happening wherever you are.</p>
+
+      <form id="search-form" class="search" autocomplete="off">
+        <label class="sr-only" for="city">Search for a city</label>
+        <span class="search-icon" aria-hidden="true">⌕</span>
+        <input id="city" type="search" placeholder="Search any city..." maxlength="100" required>
+        <button type="button" id="locate" class="icon-btn" title="Use my location" aria-label="Use my location">
+          <span aria-hidden="true">⌖</span>
+        </button>
+        <button type="submit" class="search-btn">Explore <span aria-hidden="true">→</span></button>
+      </form>
+
+      <div class="quick-search">
+        <span>Try</span>
+        <button type="button" class="city-pick" data-city="Gwalior">Gwalior</button>
+        <button type="button" class="city-pick" data-city="Mumbai">Mumbai</button>
+        <button type="button" class="city-pick" data-city="London">London</button>
+        <button type="button" class="city-pick" data-city="Tokyo">Tokyo</button>
+      </div>
+      <div id="recent" class="recent" aria-label="Recent searches"></div>
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+    </section>
+
+    <section id="result" class="weather-panel hidden" aria-label="Weather results" aria-live="polite">
+      <div class="weather-card">
+        <div class="weather-topline">
+          <div class="location">
+            <span class="location-pin" aria-hidden="true">⌖</span>
+            <div>
+              <p class="eyebrow">CURRENT WEATHER</p>
+              <h2 id="location"></h2>
+            </div>
+          </div>
+          <button type="button" id="unit-toggle" class="unit-toggle" aria-label="Switch temperature unit" aria-pressed="false">
+            <span class="unit-option active" data-unit="c">°C</span>
+            <span class="unit-divider">/</span>
+            <span class="unit-option" data-unit="f">°F</span>
+          </button>
+        </div>
+
+        <div class="current-weather">
+          <div class="temperature-block">
+            <div id="icon" class="big-icon" role="img"></div>
+            <div>
+              <p class="temperature"><span id="temp"></span><sup id="unit-label">°C</sup></p>
+              <p id="desc" class="condition"></p>
+              <p class="feels-line">Feels like <strong id="feels"></strong></p>
+            </div>
+          </div>
+          <p class="weather-note"><span class="note-sparkle" aria-hidden="true">✦</span> <span id="weather-note">A lovely day to get outside.</span></p>
+        </div>
+
+        <div class="detail-grid">
+          <article class="detail-card">
+            <span class="detail-icon humidity-icon" aria-hidden="true">◉</span>
+            <div><p>Humidity</p><strong id="humidity"></strong></div>
+          </article>
+          <article class="detail-card">
+            <span class="detail-icon wind-icon" aria-hidden="true">↗</span>
+            <div><p>Wind speed</p><strong id="wind"></strong></div>
+          </article>
+          <article class="detail-card">
+            <span class="detail-icon pressure-icon" aria-hidden="true">◌</span>
+            <div><p>Pressure</p><strong id="pressure"></strong></div>
+          </article>
+          <article class="detail-card">
+            <span class="detail-icon sun-icon" aria-hidden="true">☼</span>
+            <div><p>Sunrise / Sunset</p><strong><span id="sunrise"></span><span class="sun-separator"> · </span><span id="sunset"></span></strong></div>
+          </article>
+        </div>
+      </div>
+
+      <div class="forecast-section">
+        <div class="section-heading">
+          <div><p class="eyebrow">PLAN AHEAD</p><h2>5-day forecast</h2></div>
+          <p class="forecast-caption">A little look at what’s coming</p>
+        </div>
+        <div id="forecast" class="forecast"></div>
+        <p class="updated"><span class="updated-dot"></span> Weather data updated <span id="updated"></span> · Open-Meteo</p>
+      </div>
+    </section>
+
+    <footer>
+      <span class="footer-brand">sky<span>cast</span></span>
+      <span>Thoughtful forecasts, powered by Open-Meteo.</span>
+      <span class="footer-credit">A student project · SDMS, MITS Gwalior<br>Created by Chirag Bansal and Harshit Shekhar</span>
+    </footer>
+  </main>
+
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</body>
+</html>
